@@ -262,8 +262,18 @@ class GPXExtensionsField(AbstractGPXField):
         if children is None:
             return result
 
+        def drop_tag(s):
+            parts = s.split(':')
+            return ''.join(parts[1:]) if len(parts) > 1 else s
+
         for child in children:
-            result[parser.get_node_name(child)] = parser.get_node_data(child)
+            sub_children = parser.get_children(child)
+            try:
+                for sub_child in sub_children:
+                    name = drop_tag(parser.get_node_name(sub_child))
+                    result[name] = parser.get_node_data(sub_child)
+            except:
+                result[parser.get_node_name(child)] = parser.get_node_data(child)
 
         return result
 
