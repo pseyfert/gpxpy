@@ -40,10 +40,12 @@ def print_gpx_part_info(gpx_part, indentation='    '):
     print('{}Length 3D: {:.3f}km'.format(indentation, length_3d / 1000.))
 
     moving_time, stopped_time, moving_distance, stopped_distance, max_speed = gpx_part.get_moving_data()
+    avg_speed = moving_distance / moving_time
     print('%sMoving time: %s' % (indentation, format_time(moving_time)))
     print('%sStopped time: %s' % (indentation, format_time(stopped_time)))
     #print('%sStopped distance: %sm' % stopped_distance)
     print('{}Max speed: {:.2f}m/s = {:.2f}km/h'.format(indentation, max_speed if max_speed else 0, max_speed * 60. ** 2 / 1000. if max_speed else 0))
+    print('{}Avg speed: {:.2f}m/s = {:.2f}km/h'.format(indentation, avg_speed if avg_speed else 0, avg_speed * 60. ** 2 / 1000. if avg_speed else 0))
 
     uphill, downhill = gpx_part.get_uphill_downhill()
     print('{}Total uphill: {:.2f}m'.format(indentation, uphill))
